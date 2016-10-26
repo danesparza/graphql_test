@@ -36,8 +36,12 @@ func main() {
 		Pretty: true,
 	})
 
+	// static file server to serve Graphiql in-browser editor
+	fs := http.FileServer(http.Dir("static"))
+
 	// serve a GraphQL endpoint at `/graphql`
 	http.Handle("/graphql", h)
+	http.Handle("/", fs)
 
 	// and serve!
 	http.ListenAndServe(":8080", nil)
