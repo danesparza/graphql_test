@@ -1,6 +1,7 @@
 package main
 
 import (
+	"math/rand"
 	"net/http"
 
 	"github.com/graphql-go/graphql"
@@ -16,8 +17,12 @@ func main() {
 				Type: graphql.String,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					return "Hello World!", nil
-				},
-			},
+				}},
+			"someRandomInt": &graphql.Field{
+				Type: graphql.Int,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					return rand.Intn(100), nil
+				}},
 		},
 	})
 
