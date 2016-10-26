@@ -1,0 +1,39 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js init
+
+PATH: 
+  C:\Users\esparzad\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\local\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\usr\bin;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\esparzad\bin;C:\Python27;C:\Python27\Scripts;C:\Program Files (x86)\Nice Systems\NICE Player Codec Pack;C:\Program Files (x86)\RSA SecurID Token Common;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0;C:\Program Files (x86)\Microsoft Application Virtualization Client;C:\Program Files (x86)\Nice Systems\NICE Player Release 3;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit;C:\Program Files\Microsoft SQL Server\110\Tools\Binn;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0;C:\Program Files\Microsoft SQL Server\120\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn;C:\Program Files (x86)\NuGet;C:\Program Files\OpenVPN\bin;C:\windows\System32\WindowsPowerShell\v1.0;C:\windows\system32\config\systemprofile\.dnx\bin;C:\Program Files\Microsoft DNX\Dnvm;C:\TDM-GCC-64\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn;C:\Program Files\Amazon\AWSCLI;C:\Program Files (x86)\Microsoft SQL Server\110\DTS\Binn;C:\Program Files (x86)\Microsoft SQL Server\130\DTS\Binn;C:\Program Files\nodejs;C:\Go\bin;C:\Program Files\Git\cmd;C:\Users\esparzad\.dnx\runtimes\dnx-clr-win-x86.1.0.0-beta7\bin;C:\Program Files (x86)\Mercurial;C:\DevGo\bin;C:\Program Files\7-Zip;C:\Users\esparzad\AppData\Roaming\npm;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Program Files\Git\usr\bin\vendor_perl;C:\Program Files\Git\usr\bin\core_perl
+
+Yarn version: 
+  0.16.1
+
+Node version: 
+  4.4.7
+
+Platform: 
+  win32 x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+bower manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Can't answer a question unless a user TTY
+      at ConsoleReporter.question (C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\lib-legacy\reporters\console\console-reporter.js:198:59)
+      at Object.<anonymous> (C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\lib-legacy\cli\commands\init.js:101:34)
+      at next (native)
+      at step (C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\node_modules\babel-runtime\helpers\asyncToGenerator.js:17:30)
+      at C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\node_modules\babel-runtime\helpers\asyncToGenerator.js:28:13
+      at run (C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\node_modules\babel-runtime\node_modules\core-js\library\modules\es6.promise.js:87:22)
+      at C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\node_modules\babel-runtime\node_modules\core-js\library\modules\es6.promise.js:100:28
+      at flush (C:\Users\esparzad\AppData\Roaming\npm\node_modules\yarn\node_modules\babel-runtime\node_modules\core-js\library\modules\_microtask.js:18:9)
+      at nextTickCallbackWith0Args (node.js:420:9)
+      at process._tickCallback (node.js:349:13)

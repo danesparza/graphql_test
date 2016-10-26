@@ -1,0 +1,22 @@
+{
+  "name": "graphql_test",
+  "version": "1.0.0",
+  "description": "GraphQL test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danesparza/graphql_test.git"
+  },
+  "author": "Dan Esparza",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danesparza/graphql_test/issues"
+  },
+  "homepage": "https://github.com/danesparza/graphql_test#readme",
+  "dependencies": {
+    "graphiql": "^0.7.8"
+  }
+}
