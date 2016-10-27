@@ -4,7 +4,7 @@
   "description": "GraphQL test",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/danesparza/graphql_test#readme",
   "dependencies": {
     "graphiql": "^0.7.8"
+  },
+  "devDependencies": {
+    "jest": "^16.0.2"
   }
 }
