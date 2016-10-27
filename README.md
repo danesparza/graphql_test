@@ -1,4 +1,4 @@
-# graphql_test
+# graphql_test [![CircleCI](https://circleci.com/gh/danesparza/graphql_test.svg?style=svg)](https://circleci.com/gh/danesparza/graphql_test)
 Simple Golang based GraphQL endpoint test
 
 To test, POST to `http://localhost:8080/graphql` with `Content-Type: application/graphql` and the [GraphQL](http://graphql.org/learn/) query:
