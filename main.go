@@ -14,12 +14,14 @@ func main() {
 		Name: "Query",
 		Fields: graphql.Fields{
 			"latestPost": &graphql.Field{
-				Type: graphql.String,
+				Type:        graphql.String,
+				Description: "The latest post",
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					return "Hello World!", nil
 				}},
 			"someRandomInt": &graphql.Field{
-				Type: graphql.Int,
+				Type:        graphql.Int,
+				Description: "A random int.  No, really",
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					return rand.Intn(100), nil
 				}},
