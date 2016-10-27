@@ -14,3 +14,5 @@ If the test is successful, you should get the following response back:
 	}
 }
 ```
+
+You can also navigate to http://localhost:8080 in your browser to see the excellent [GraphiQL interface](https://github.com/graphql/graphiql) and submit queries that way.  Need to customize where the GraphiQL interface points to?  Just adjust [the fetcher](https://github.com/danesparza/graphql_test/blob/master/static/index.html#L96).
