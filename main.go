@@ -10,6 +10,7 @@ import (
 
 func main() {
 
+	//	The root query and query resolvers
 	rootQuery := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Query",
 		Fields: graphql.Fields{
@@ -28,11 +29,12 @@ func main() {
 		},
 	})
 
+	//	Setup the schema based on the query
 	schemaConfig := graphql.SchemaConfig{Query: rootQuery}
 	schema, _ := graphql.NewSchema(schemaConfig)
 
-	// create a graphl-go HTTP handler with our previously defined schema
-	// and we also set it to return pretty JSON output
+	// create a graphql-go HTTP handler with our previously defined schema
+	// and also set it to return pretty JSON output
 	h := gqlhandler.New(&gqlhandler.Config{
 		Schema: &schema,
 		Pretty: true,
@@ -41,8 +43,9 @@ func main() {
 	// static file server to serve Graphiql in-browser editor
 	fs := http.FileServer(http.Dir("static"))
 
-	// serve a GraphQL endpoint at `/graphql`
+	//	serve a GraphQL endpoint at `/graphql`
 	http.Handle("/graphql", h)
+	//	serve the GraphiQL UI at the root:
 	http.Handle("/", fs)
 
 	// and serve!
