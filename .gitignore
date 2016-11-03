@@ -17,6 +17,7 @@ node_modules
 _cgo_defun.c
 _cgo_gotypes.go
 _cgo_export.*
+debug
 
 _testmain.go
 

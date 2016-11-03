@@ -301,12 +301,12 @@ func init() {
 						Type:        graphql.NewNonNull(graphql.String),
 					},
 				},
-				Resolve: func(params graphql.ResolveParams) (interface{}, error) {
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					//  Get the id:
-					text, isOK := params.Args["id"].(*string)
+					text, isOK := p.Args["id"].(string)
 					if isOK {
 						fmt.Printf("%T", text)
-						id, err := strconv.Atoi(*text)
+						id, err := strconv.Atoi(text)
 						if err != nil {
 							fmt.Printf("Error getting id: %v", err)
 						}
