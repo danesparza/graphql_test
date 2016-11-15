@@ -1,19 +1,14 @@
 package main
 
 import (
-	"encoding/json"
-	"reflect"
 	"strconv"
-	"testing"
 
 	"fmt"
 
 	"github.com/graphql-go/graphql"
-	"github.com/graphql-go/graphql/language/ast"
-	"github.com/graphql-go/graphql/language/parser"
-	"github.com/kr/pretty"
 )
 
+/* Our package variables */
 var (
 	Luke           StarWarsChar
 	Vader          StarWarsChar
@@ -30,6 +25,7 @@ var (
 	droidType *graphql.Object
 )
 
+// StarWarsChar struct
 type StarWarsChar struct {
 	ID              string
 	Name            string
@@ -39,7 +35,10 @@ type StarWarsChar struct {
 	PrimaryFunction string
 }
 
+/* Package initialization */
 func init() {
+
+	/* Initialize all the data */
 	Luke = StarWarsChar{
 		ID:         "1000",
 		Name:       "Luke Skywalker",
@@ -68,6 +67,7 @@ func init() {
 		Name:      "Wilhuff Tarkin",
 		AppearsIn: []int{4},
 	}
+
 	Threepio = StarWarsChar{
 		ID:              "2000",
 		Name:            "C-3PO",
@@ -80,6 +80,8 @@ func init() {
 		AppearsIn:       []int{4, 5, 6},
 		PrimaryFunction: "Astromech",
 	}
+
+	/* Initialize the relationships */
 	Luke.Friends = append(Luke.Friends, []StarWarsChar{Han, Leia, Threepio, Artoo}...)
 	Vader.Friends = append(Luke.Friends, []StarWarsChar{Tarkin}...)
 	Han.Friends = append(Han.Friends, []StarWarsChar{Luke, Leia, Artoo}...)
@@ -87,6 +89,7 @@ func init() {
 	Tarkin.Friends = append(Tarkin.Friends, []StarWarsChar{Vader}...)
 	Threepio.Friends = append(Threepio.Friends, []StarWarsChar{Luke, Han, Leia, Artoo}...)
 	Artoo.Friends = append(Artoo.Friends, []StarWarsChar{Luke, Han, Leia}...)
+
 	HumanData = map[int]StarWarsChar{
 		1000: Luke,
 		1001: Vader,
@@ -94,11 +97,13 @@ func init() {
 		1003: Leia,
 		1004: Tarkin,
 	}
+
 	DroidData = map[int]StarWarsChar{
 		2000: Threepio,
 		2001: Artoo,
 	}
 
+	/* Initialize episode enum information */
 	episodeEnum := graphql.NewEnum(graphql.EnumConfig{
 		Name:        "Episode",
 		Description: "One of the films in the Star Wars Trilogy",
@@ -118,6 +123,7 @@ func init() {
 		},
 	})
 
+	/* Initialize episode information */
 	characterInterface := graphql.NewInterface(graphql.InterfaceConfig{
 		Name:        "Character",
 		Description: "A character in the Star Wars Trilogy",
@@ -146,11 +152,13 @@ func init() {
 			return droidType
 		},
 	})
+
 	characterInterface.AddFieldConfig("friends", &graphql.Field{
 		Type:        graphql.NewList(characterInterface),
 		Description: "The friends of the character, or an empty list if they have none.",
 	})
 
+	/* Initialize objects and resolvers */
 	humanType = graphql.NewObject(graphql.ObjectConfig{
 		Name:        "Human",
 		Description: "A humanoid creature in the Star Wars universe.",
@@ -210,6 +218,7 @@ func init() {
 			characterInterface,
 		},
 	})
+
 	droidType = graphql.NewObject(graphql.ObjectConfig{
 		Name:        "Droid",
 		Description: "A mechanical creature in the Star Wars universe.",
@@ -277,6 +286,7 @@ func init() {
 		},
 	})
 
+	/* Initialize root query */
 	queryType := graphql.NewObject(graphql.ObjectConfig{
 		Name: "Query",
 		Fields: graphql.Fields{
@@ -331,148 +341,33 @@ func init() {
 			},
 		},
 	})
+
+	/* Initialize schema based on the root query */
 	StarWarsSchema, _ = graphql.NewSchema(graphql.SchemaConfig{
 		Query: queryType,
 	})
 }
 
+// GetHuman helper function
 func GetHuman(id int) StarWarsChar {
 	if human, ok := HumanData[id]; ok {
 		return human
 	}
 	return StarWarsChar{}
 }
+
+// GetDroid helper function
 func GetDroid(id int) StarWarsChar {
 	if droid, ok := DroidData[id]; ok {
 		return droid
 	}
 	return StarWarsChar{}
 }
+
+// GetHero helper function
 func GetHero(episode interface{}) interface{} {
 	if episode == 5 {
 		return Luke
 	}
 	return Artoo
-}
-
-// Test helper functions
-
-func TestParse(t *testing.T, query string) *ast.Document {
-	astDoc, err := parser.Parse(parser.ParseParams{
-		Source: query,
-		Options: parser.ParseOptions{
-			// include source, for error reporting
-			NoSource: false,
-		},
-	})
-	if err != nil {
-		t.Fatalf("Parse failed: %v", err)
-	}
-	return astDoc
-}
-func TestExecute(t *testing.T, ep graphql.ExecuteParams) *graphql.Result {
-	return graphql.Execute(ep)
-}
-
-func Diff(a, b interface{}) []string {
-	return pretty.Diff(a, b)
-}
-
-func ASTToJSON(t *testing.T, a ast.Node) interface{} {
-	b, err := json.Marshal(a)
-	if err != nil {
-		t.Fatalf("Failed to marshal Node %v", err)
-	}
-	var f interface{}
-	err = json.Unmarshal(b, &f)
-	if err != nil {
-		t.Fatalf("Failed to unmarshal Node %v", err)
-	}
-	return f
-}
-
-func ContainSubsetSlice(super []interface{}, sub []interface{}) bool {
-	if len(sub) == 0 {
-		return true
-	}
-subLoop:
-	for _, subVal := range sub {
-		found := false
-	innerLoop:
-		for _, superVal := range super {
-			if subVal, ok := subVal.(map[string]interface{}); ok {
-				if superVal, ok := superVal.(map[string]interface{}); ok {
-					if ContainSubset(superVal, subVal) {
-						found = true
-						break innerLoop
-					} else {
-						continue
-					}
-				} else {
-					return false
-				}
-
-			}
-			if subVal, ok := subVal.([]interface{}); ok {
-				if superVal, ok := superVal.([]interface{}); ok {
-					if ContainSubsetSlice(superVal, subVal) {
-						found = true
-						break innerLoop
-					} else {
-						continue
-					}
-				} else {
-					return false
-				}
-			}
-			if reflect.DeepEqual(superVal, subVal) {
-				found = true
-				break innerLoop
-			}
-		}
-		if !found {
-			return false
-		}
-		continue subLoop
-	}
-	return true
-}
-
-func ContainSubset(super map[string]interface{}, sub map[string]interface{}) bool {
-	if len(sub) == 0 {
-		return true
-	}
-	for subKey, subVal := range sub {
-		if superVal, ok := super[subKey]; ok {
-			switch superVal := superVal.(type) {
-			case []interface{}:
-				if subVal, ok := subVal.([]interface{}); ok {
-					if !ContainSubsetSlice(superVal, subVal) {
-						return false
-					}
-				} else {
-					return false
-				}
-			case map[string]interface{}:
-				if subVal, ok := subVal.(map[string]interface{}); ok {
-					if !ContainSubset(superVal, subVal) {
-						return false
-					}
-				} else {
-					return false
-				}
-			default:
-				if !reflect.DeepEqual(superVal, subVal) {
-					return false
-				}
-			}
-		} else {
-			return false
-		}
-	}
-	return true
-}
-
-func EqualErrorMessage(expected, result *graphql.Result, i int) bool {
-	return expected.Errors[i].Message == result.Errors[i].Message
 }
