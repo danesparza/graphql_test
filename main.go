@@ -3,6 +3,7 @@ package main
 import (
 	"net/http"
 
+	"github.com/danesparza/graphql_test/data"
 	gqlhandler "github.com/graphql-go/handler"
 )
 
@@ -22,6 +23,9 @@ func main() {
 	http.Handle("/graphql", h)
 	//	serve the GraphiQL UI at the root:
 	http.Handle("/", fs)
+
+	//	Create our database:
+	data.CreateDB()
 
 	// and serve!
 	http.ListenAndServe(":8080", nil)
