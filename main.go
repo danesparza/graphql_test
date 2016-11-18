@@ -3,7 +3,7 @@ package main
 import (
 	"net/http"
 
-	"github.com/danesparza/graphql_test/data"
+	"github.com/danesparza/graphql_test/datastores"
 	gqlhandler "github.com/graphql-go/handler"
 )
 
@@ -25,7 +25,11 @@ func main() {
 	http.Handle("/", fs)
 
 	//	Create our database:
-	data.CreateDB()
+	db := datastores.MySqlDB{
+		Address:  "",
+		Database: ""}
+
+	db.InsertTestData()
 
 	// and serve!
 	http.ListenAndServe(":8080", nil)

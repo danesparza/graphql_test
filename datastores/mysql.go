@@ -28,13 +28,13 @@ func (store MySqlDB) InsertTestData() error {
 	}
 
 	//	Insert our hero data:
-	stmt, err := db.Prepare("insert into configitem(application, name, value, machine) values(?, ?, ?, ?)")
+	stmt, err := db.Prepare("insert into starwarschar(id, name, home_planet, type_id) values(?, ?, ?, ?)")
 	defer stmt.Close()
 	if err != nil {
 		return err
 	}
 
-	res, err := stmt.Exec(configItem.Application, configItem.Name, configItem.Value, configItem.Machine)
+	_, err = stmt.Exec("1000", "Luke Skywalker", "Tatooine", 1000)
 	if err != nil {
 		return err
 	}
