@@ -12,7 +12,7 @@ func main() {
 	// create a graphql-go HTTP handler with our previously defined schema
 	// and also set it to return pretty JSON output
 	h := gqlhandler.New(&gqlhandler.Config{
-		Schema: &StarWarsSchema,
+		Schema: &datastores.StarWarsSchema,
 		Pretty: true,
 	})
 
@@ -23,13 +23,6 @@ func main() {
 	http.Handle("/graphql", h)
 	//	serve the GraphiQL UI at the root:
 	http.Handle("/", fs)
-
-	//	Create our database:
-	db := datastores.MySqlDB{
-		Address:  "",
-		Database: ""}
-
-	db.InsertTestData()
 
 	// and serve!
 	http.ListenAndServe(":8080", nil)

@@ -1,4 +1,4 @@
-package main
+package datastores
 
 import (
 	"strconv"
@@ -142,9 +142,14 @@ func init() {
 			},
 		},
 		ResolveType: func(p graphql.ResolveTypeParams) *graphql.Object {
+			db := MySQLDB{
+				Database: "starwars",
+				User:     "USERHERE",
+				Password: "PASSWORDHERE"}
+
 			if character, ok := p.Value.(StarWarsChar); ok {
 				id, _ := strconv.Atoi(character.ID)
-				human := GetHuman(id)
+				human := db.GetHuman(id)
 				if human.ID != "" {
 					return humanType
 				}
@@ -312,6 +317,11 @@ func init() {
 					},
 				},
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					db := MySQLDB{
+						Database: "starwars",
+						User:     "USERHERE",
+						Password: "PASSWORDHERE"}
+
 					//  Get the id:
 					text, isOK := p.Args["id"].(string)
 					if isOK {
@@ -320,10 +330,10 @@ func init() {
 						if err != nil {
 							fmt.Printf("Error getting id: %v", err)
 						}
-						return GetHuman(id), nil
+						return db.GetHuman(id), nil
 					}
 
-					return GetHuman(0), nil
+					return db.GetHuman(0), nil
 				},
 			},
 			"droid": &graphql.Field{
@@ -349,12 +359,14 @@ func init() {
 }
 
 // GetHuman helper function
+/*
 func GetHuman(id int) StarWarsChar {
 	if human, ok := HumanData[id]; ok {
 		return human
 	}
 	return StarWarsChar{}
 }
+*/
 
 // GetDroid helper function
 func GetDroid(id int) StarWarsChar {
