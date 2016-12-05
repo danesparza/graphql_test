@@ -2,13 +2,12 @@ package datastores
 
 import (
 	"fmt"
+	"strconv"
 
 	"database/sql"
-	
-	_ "github.com/go-sql-driver/mysql"
 )
 
-// MySqlDB is the database information
+// MySQLDB is the database information
 type MySQLDB struct {
 	Protocol string
 	Address  string
@@ -18,7 +17,7 @@ type MySQLDB struct {
 }
 
 // GetHuman gets the human with the given id from the database
-func (store MySQLDB) GetHuman(humanID int) StarWarsChar {
+func (store MySQLDB) GetHuman(humanID int) (StarWarsChar, error) {
 	//	Our return item:
 	retval := StarWarsChar{}
 
@@ -26,21 +25,24 @@ func (store MySQLDB) GetHuman(humanID int) StarWarsChar {
 	db, err := sql.Open("mysql", fmt.Sprintf("%s:%s@%s(%s)/%s?parseTime=true", store.User, store.Password, store.Protocol, store.Address, store.Database))
 	defer db.Close()
 	if err != nil {
-		return retval
+		return retval, err
 	}
 
 	//	Prepare our query
-	stmt, err := db.Prepare("select id, name, home_planet, primary_function, type_id from starwarschar where id=? order by name")
+	stmt, err := db.Prepare("select id, name, home_planet, COALESCE(primary_function, '') as primary_function, type_id from starwarschar where id=? order by name")
 	defer stmt.Close()
 	if err != nil {
-		return retval
+		return retval, err
 	}
 
 	//	Get the human with the given id
-	rows, err := stmt.Query(humanID)
+	stringHuman := strconv.Itoa(humanID)
+
+	fmt.Printf("Trying to get human: %v", stringHuman)
+	rows, err := stmt.Query(stringHuman)
 	defer rows.Close()
 	if err != nil {
-		return retval
+		return retval, err
 	}
 
 	for rows.Next() {
@@ -54,7 +56,7 @@ func (store MySQLDB) GetHuman(humanID int) StarWarsChar {
 		err = rows.Scan(&id, &name, &homePlanet, &primaryFunction, &typeID)
 
 		if err != nil {
-			return retval
+			return retval, err
 		}
 
 		//	Set our return value
@@ -68,5 +70,5 @@ func (store MySQLDB) GetHuman(humanID int) StarWarsChar {
 	}
 
 	//	Return it
-	return retval
+	return retval, nil
 }

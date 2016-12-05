@@ -28,7 +28,7 @@ func TestMysql_Get_ItemDoesntExist_Successful(t *testing.T) {
 	query := 1000
 
 	//	Act
-	response, err := datastores.GetHuman(query)
+	response, err := db.GetHuman(query)
 
 	//	Assert
 	if err != nil {
@@ -36,6 +36,9 @@ func TestMysql_Get_ItemDoesntExist_Successful(t *testing.T) {
 	}
 
 	if response.ID != "1000" {
-		t.Errorf("GetHuman failed: Shouldn't have returned the value %s", response.ID)
+		t.Errorf("GetHuman failed: Shouldn't have returned the value '%s'", response.ID)
+	} else {
+		t.Logf("Got human with name: %v, home planet: %v", response.Name, response.HomePlanet)
 	}
+
 }

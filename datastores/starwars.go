@@ -149,7 +149,7 @@ func init() {
 
 			if character, ok := p.Value.(StarWarsChar); ok {
 				id, _ := strconv.Atoi(character.ID)
-				human := db.GetHuman(id)
+				human, _ := db.GetHuman(id)
 				if human.ID != "" {
 					return humanType
 				}
@@ -330,10 +330,11 @@ func init() {
 						if err != nil {
 							fmt.Printf("Error getting id: %v", err)
 						}
-						return db.GetHuman(id), nil
+						rethuman, _ := db.GetHuman(id)
+						return rethuman, nil
 					}
-
-					return db.GetHuman(0), nil
+					rethuman, _ := db.GetHuman(0)
+					return rethuman, nil
 				},
 			},
 			"droid": &graphql.Field{

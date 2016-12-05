@@ -5,6 +5,8 @@ import (
 
 	"github.com/danesparza/graphql_test/datastores"
 	gqlhandler "github.com/graphql-go/handler"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
