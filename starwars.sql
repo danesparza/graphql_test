@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: starwars
@@ -15,6 +16,8 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+=======
+>>>>>>> b0e9edc3e13dc2cdb53625bb4823662dc0e334f5
 --
 -- Table structure for table `character_friend`
 --
