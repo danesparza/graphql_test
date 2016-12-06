@@ -33,7 +33,7 @@ database:
   override:
     # Sanity check MySQL version and create test database
     - mysql -V
-    - mysql circle_test < starwars.sql
+    - mysql -u $graphql_test_mysql_user starwars < starwars.sql
 test:
   pre:
     - go vet -x $PACKAGE_PATH/...        
