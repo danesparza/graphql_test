@@ -21,7 +21,7 @@ func getDBConnection() datastores.MySQLDB {
 }
 
 //	MySQL get should return successfully even if the item doesn't exist
-func TestMysql_Get_ItemDoesntExist_Successful(t *testing.T) {
+func TestMysql_GetHuman_ItemExists_Successful(t *testing.T) {
 
 	//	Arrange
 	db := getDBConnection()
@@ -37,8 +37,6 @@ func TestMysql_Get_ItemDoesntExist_Successful(t *testing.T) {
 
 	if response.ID != "1000" {
 		t.Errorf("GetHuman failed: Shouldn't have returned the value '%s'", response.ID)
-	} else {
-		t.Logf("Got human with name: %v, home planet: %v", response.Name, response.HomePlanet)
 	}
 
 }

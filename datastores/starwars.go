@@ -3,8 +3,6 @@ package datastores
 import (
 	"strconv"
 
-	"fmt"
-
 	"github.com/graphql-go/graphql"
 )
 
@@ -325,11 +323,7 @@ func init() {
 					//  Get the id:
 					text, isOK := p.Args["id"].(string)
 					if isOK {
-						fmt.Printf("%T", text)
-						id, err := strconv.Atoi(text)
-						if err != nil {
-							fmt.Printf("Error getting id: %v", err)
-						}
+						id, _ := strconv.Atoi(text)
 						rethuman, _ := db.GetHuman(id)
 						return rethuman, nil
 					}

@@ -38,7 +38,6 @@ func (store MySQLDB) GetHuman(humanID int) (StarWarsChar, error) {
 	//	Get the human with the given id
 	stringHuman := strconv.Itoa(humanID)
 
-	fmt.Printf("Trying to get human: %v", stringHuman)
 	rows, err := stmt.Query(stringHuman)
 	defer rows.Close()
 	if err != nil {
