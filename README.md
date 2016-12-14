@@ -3,7 +3,9 @@ Simple Golang based GraphQL endpoint test using [graphql-go](https://github.com/
 
 ### Quick start
 Install the database script in your MySQL database:
+```
 mysql -u USERNAME starwars < starwars.sql
+```
 
 Set the following environment variables for database connectivity:
 
