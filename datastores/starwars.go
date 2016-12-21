@@ -1,6 +1,7 @@
 package datastores
 
 import (
+	"os"
 	"strconv"
 
 	"github.com/graphql-go/graphql"
@@ -21,6 +22,7 @@ var (
 
 	humanType *graphql.Object
 	droidType *graphql.Object
+	db        MySQLDB
 )
 
 // StarWarsChar struct
@@ -37,6 +39,12 @@ type StarWarsChar struct {
 func init() {
 
 	/* Initialize all the data */
+	db := MySQLDB{
+		Address:  os.Getenv("graphql_test_mysql_server"), /* Ex: test-server:3306 If this is blank, it assumes a local database on port 3306 */
+		Database: os.Getenv("graphql_test_mysql_database"),
+		User:     os.Getenv("graphql_test_mysql_user"),
+		Password: os.Getenv("graphql_test_mysql_password")}
+
 	Luke = StarWarsChar{
 		ID:         "1000",
 		Name:       "Luke Skywalker",
@@ -140,10 +148,6 @@ func init() {
 			},
 		},
 		ResolveType: func(p graphql.ResolveTypeParams) *graphql.Object {
-			db := MySQLDB{
-				Database: "starwars",
-				User:     "USERHERE",
-				Password: "PASSWORDHERE"}
 
 			if character, ok := p.Value.(StarWarsChar); ok {
 				id, _ := strconv.Atoi(character.ID)
@@ -191,7 +195,9 @@ func init() {
 				Description: "The friends of the human, or an empty list if they have none.",
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 					if human, ok := p.Source.(StarWarsChar); ok {
-						return human.Friends, nil
+						id, _ := strconv.Atoi(human.ID)
+						friends, _ := db.GetFriends(id)
+						return friends, nil
 					}
 					return []interface{}{}, nil
 				},
@@ -315,11 +321,6 @@ func init() {
 					},
 				},
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					db := MySQLDB{
-						Database: "starwars",
-						User:     "USERHERE",
-						Password: "PASSWORDHERE"}
-
 					//  Get the id:
 					text, isOK := p.Args["id"].(string)
 					if isOK {
